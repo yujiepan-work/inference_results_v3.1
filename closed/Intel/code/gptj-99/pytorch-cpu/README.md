@@ -25,6 +25,8 @@ pip install https://github.com/intel-sandbox/yujiepan.debug.23h2.mlperf3.1/raw/m
 pip install transformers==4.31
 ```
 
+Also, the torch+torchvisio+torchaudio wheels are at https://github.com/intel-sandbox/yujiepan.debug.23h2.mlperf3.1 in case the dev-builds in `prepare_env.sh` are deleted.
+
 
 + For INT4 - Please note that you will use a different environment from that for calibration
 ```
