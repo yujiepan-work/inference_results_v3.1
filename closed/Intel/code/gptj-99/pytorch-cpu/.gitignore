@@ -1,0 +1,9 @@
+gptj_int4/
+gptj_no/
+gpt-j-env*/
+logs/
+data/
+gpt-j-checkpoint.zip
+utils/build/
+*.egg-info
+*.pyc

@@ -14,14 +14,14 @@ fi
 echo "Working directory is ${WORKDIR}"
 mkdir -p ${WORKDIR}
 
-source $(dirname `/usr/bin/which conda`)/activate
+source $HOME/miniconda3/bin/activate
 
 conda create -n ${CONDA_ENV_NAME} python=3.9 --yes
 conda init bash
 conda activate ${CONDA_ENV_NAME}
 
 
-conda install mkl==2023.2.0 mkl-include==2023.2.0 -y
+conda install mkl==2023.2.0 mkl-include==2023.2.0 -c conda-forge -y
 conda install gperftools==2.10 jemalloc==5.2.1 pybind11==2.10.4 llvm-openmp==16.0.6 -c conda-forge -y
 conda install gcc=12.3 gxx=12.3 ninja==1.11.1 -c conda-forge -y
 conda install -c conda-forge zlib -y
@@ -35,7 +35,9 @@ pip install optimum
 
 
 # ========== Install torch ===========
-pip3 install --pre torch==2.1.0.dev20230711+cpu torchvision==0.16.0.dev20230711+cpu torchaudio==2.1.0.dev20230711+cpu --index-url https://download.pytorch.org/whl/nightly/cpu
+# 2.1.0/2.2.0 is not released yet. The older dev builds will be deleted, so please check the available dev date when you install this.
+pip3 install --pre torch==2.2.0.dev20230911+cpu torchvision==0.17.0.dev20230911+cpu torchaudio==2.2.0.dev20230911+cpu --index-url https://download.pytorch.org/whl/nightly/cpu
+ABI=$(python -c "import torch; print(int(torch._C._GLIBCXX_USE_CXX11_ABI))")
 
 # =========== Install Ipex ==========
 cd ${WORKDIR}

@@ -8,19 +8,31 @@
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
 bash miniconda.sh
 ```
+
+**Make sure your conda is installed at `$HOME/miniconda3`, otherwise you need to modify in the following scripts.**
+
 + For INT8
 ```
-dnf install -y gcc-toolset-11-gcc gcc-toolset-11-gcc-c++
+dnf install -y gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ # cannot use this without root. See the workaround in prepare_env.sh
 source </path/to/gcc-11/>enable
-bash prepare_env.sh gpt-j-env
+bash prepare_env.sh gpt-j-env 2>&1 | tee prepare_env.log
 conda activate gpt-j-env
 ```
+if ipex not installed successfully (e.g., on diamond, chances are some libs are missing), please install the wheel from [my compiled wheel from dgx1]. One issue is that, the wheel is compiled with transformers=4.31 rather than 4.28 (as required in `prepare_env.sh`), but i don't want to build that again. I think using 4.31 should be fine...
+
+```bash
+pip install https://github.com/intel-sandbox/yujiepan.debug.23h2.mlperf3.1/raw/main/intel_extension_for_pytorch-2.2.0%2Bgit880fda9-cp39-cp39-linux_x86_64.whl
+pip install transformers==4.31
+```
+
 
 + For INT4 - Please note that you will use a different environment from that for calibration
 ```
-bash prepare_env_int4.sh gpt-j-env-int4
+bash prepare_env_int4.sh gpt-j-env-int4 2>&1 | tee prepare_env_int4.log
 conda activate gpt-j-env-int4
 ```
+
+Again, you might want to check if ipex is installed correctly. Otherwise, use this wheel [here](https://github.com/intel-sandbox/yujiepan.debug.23h2.mlperf3.1/raw/main/intel_extension_for_pytorch-2.2.0%2Bgit880fda9-cp39-cp39-linux_x86_64.whl)
 
 ### Download and Prepare Dataset
 ```
